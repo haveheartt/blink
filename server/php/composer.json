@@ -1,0 +1,18 @@
+{
+  "name": "api/facebook",
+  "autoload": {
+    "psr-4": {
+      "Api\\Facebook\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "guilherme",
+      "email": "guilhermev2huehue@gmail.com"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "^7.0",
+    "monolog/monolog": "^3.8"
+  }
+}
