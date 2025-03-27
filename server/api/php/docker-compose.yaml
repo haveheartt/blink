@@ -1,0 +1,24 @@
+services:
+  server:
+    image: php:8.3.19-apache-bullseye
+    ports:
+      - 8080:80
+    volumes:
+      - ./:/var/www/html
+    command: >
+      bash -c "apt-get update \
+      && apt-get install -y libmariadb-dev unzip \
+      && docker-php-ext-install pdo pdo_mysql \
+      && a2enmod rewrite \
+      && apache2-foreground"
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: facebook
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
