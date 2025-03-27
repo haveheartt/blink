@@ -31,7 +31,7 @@ class DatabaseInitializer {
                 )
             ");
 
-            echo "Database tables initialized successfully\n";
+            // echo "Database tables initialized successfully\n";
         } catch (\PDOException $e) {
             throw new \RuntimeException('Failed to initialize database tables: ' . $e->getMessage());
         }

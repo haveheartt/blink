@@ -10,8 +10,8 @@ class FeedController {
         $this->feedUseCase = new GetFeedUseCase();
     }
 
-    public function getFeed(): string {
+    public function getFeed() {
         $posts = $this->feedUseCase->execute();
-        return json_encode($posts);
+        echo json_encode($posts);
     }
 }

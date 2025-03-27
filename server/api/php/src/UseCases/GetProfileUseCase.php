@@ -1,20 +1,16 @@
 <?php 
 
 namespace App\UseCases;
-use App\Persistence\PostDAO;
-// use Thrift\SocialServiceClient;
+use App\Persistence\UserDAO;
 
-class GetFeedUseCase {
+class GetProfileUseCase {
     private UserDAO $userDAO;
-    // private SocialServiceClient $thriftClient;
 
     public function __construct() {
         $this->userDAO = new UserDAO();
-        // $this->thriftClient = new SocialServiceClient(/* Thrift config */);
     }
 
     public function execute(string $email): array {
-        $posts = $this->userDAO->findByEmail($email);
-        // return $this->thriftClient->sortFeed($posts);
+        return $this->userDAO->findByEmail($email);
     }
 }

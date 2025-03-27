@@ -12,12 +12,7 @@ class CreatePostUseCase {
         $this->db = \App\Config\Database::getConnection();
     }
 
-    public function execute(string $user, string $content): bool {
-        $this->postDAO->save([
-            'user' => $user,
-            'content' => $content,
-        ]);
-
-        return true;
+    public function execute(string $userId, string $content): bool {
+        return $this->postDAO->store($userId, $content); 
     }
 }

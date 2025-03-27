@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Controllers;
-use App\UseCases\CreateUserUseCase;
-use App\UseCases\GetProfileUseCase;
+use App\UseCases\SignUpUseCase;
 
-class UserController {
+class SignUpController {
     private SignUpUseCase $signUpUseCase;
 
     public function __construct() {
@@ -12,8 +11,6 @@ class UserController {
     }
 
     public function handle(array $request) {
-        //checks
-
         $success = $this->signUpUseCase->execute(
             $request['name'],
             $request['email'],

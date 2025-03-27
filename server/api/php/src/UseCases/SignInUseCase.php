@@ -1,9 +1,8 @@
 <?php 
 
 namespace App\UseCases;
-use App\Persistence\PostDAO;
+use App\Persistence\UserDAO;
 use Firebase\JWT\JWT;
-use Utils\Bcrypt;
 
 class SignInUseCase {
     private UserDAO $userDAO;
@@ -16,21 +15,28 @@ class SignInUseCase {
 
     public function execute(string $email, string $password): string {
         $user = $this->userDAO->findByEmail($email);
+        if (empty($user)) {
+            throw new \Exception('User not found');
+        }
 
-        $isPasswordValid = Password::compare($password, $user->password);
-
+        $isPasswordValid = password_verify($password, $user['password']);
         if (!$isPasswordValid) {
-            throw Exception;
+            throw new \Exception('Invalid password');
         }
 
         $payload = [
-            'sub' => $user->id,
-            'iat' => 1356999524,
-            'nbf' => 1357000000
+            'sub' => $user['id'],
+            'iat' => time(),
+            'nbf' => time(),
+            'exp' => time() + (60 * 60)
         ];
 
-        $accessToken = JWT::encode($payload, getenv('JWT_SECRET'), 'HS256');;
-        
-        return accessToken;
+        $jwtSecret = $_ENV['JWT_SECRET'] ?? '';
+        if (!$jwtSecret) {
+            throw new \Exception('JWT secret not configured');
+        }
+
+        $accessToken = JWT::encode($payload, $jwtSecret, 'HS256');        
+        return $accessToken;
     }
 }

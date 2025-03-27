@@ -23,7 +23,7 @@ class PostDAO {
         }
     }
 
-    public function store(array $data) {
+    public function store(int $userId, string $content) {
         try {
             $sql = "INSERT INTO posts (
                 user,
@@ -32,13 +32,13 @@ class PostDAO {
                 :user,
                 :content)";
 
-            $p_sql = $db->prepare($sql);
-            $p_sql->bindValue(":user", $data['user']);
-            $p_sql->bindValue(":content", $data['content']);
-
-            return $p_sql->execute();
-        } catch (Exception $e) {
-            echo $e->getMessage();
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(":user", $userId);
+            $stmt->bindValue(":content", $content);
+            $stmt->execute();
+            return true;
+        } catch (\PDOException $e) {
+            throw new \RuntimeException('Failed to create post: ' . $e->getMessage());        
         }
     }
 }

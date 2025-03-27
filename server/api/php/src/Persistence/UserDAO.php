@@ -5,23 +5,22 @@ use App\Entities\Post;
 use App\Config\Database;
 
 class UserDAO {
-    private \PDO $db;
-    private Bcrypt $bcrypt;
+    private ?\PDO $db;
 
     public function __construct() {
         $this->db = Database::getConnection();
-        $this->bcrypt = new Bcrypt(15);
     }
 
     public function findByEmail(string $email): array {
         try {
             $sql = "SELECT * FROM users WHERE email = :email";
-            $p_sql = Connection::getInstance()->prepare($sql);
-            $p_sql->bindValue(":email", $email);
-            $p_sql->execute();
-            return $p_sql->fetch(PDO::FETCH_ASSOC);
-        } catch (Exception $e) {
-            echo $e->getMessage();
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindValue(":email", $email);
+            $stmt->execute();
+            $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+            return $row;
+        } catch (\PDOException $e) {
+            throw new \RuntimeException('Failed to fetch user by email: ' . $e->getMessage());
         }
     }
 
@@ -36,9 +35,9 @@ class UserDAO {
                 :email,
                 :password)";
 
-            $p_sql = $db->prepare($sql);
+            $p_sql = $this->db->prepare($sql);
 
-            $password = $this->bcrypt->hash($data['password']);
+            $password = password_hash($data['password'], PASSWORD_BCRYPT, ['cost' => 12]);
 
             $p_sql->bindValue(":name", $data['name']);
             $p_sql->bindValue(":email", $data['email']);

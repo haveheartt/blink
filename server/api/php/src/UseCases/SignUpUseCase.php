@@ -1,7 +1,7 @@
 <?php 
 
 namespace App\UseCases;
-use App\Persistence\PostDAO;
+use App\Persistence\UserDAO;
 
 class SignUpUseCase {
     private UserDAO $userDAO;
@@ -13,7 +13,7 @@ class SignUpUseCase {
     }
 
     public function execute(string $name, string $email, string $password): bool {
-        $this->userDAO->save([
+        $this->userDAO->signUp([
             'name' => $name,
             'email' => $email,
             'password' => $password

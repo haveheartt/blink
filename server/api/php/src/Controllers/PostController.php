@@ -12,7 +12,7 @@ class PostController {
 
     public function createPost(array $request) {
         $success = $this->postUseCase->execute(
-            $request['user'],
+            $request['user_id'],
             $request['content'],
         );
         echo json_encode(['status' => $success ? 'success' : 'failed']);

@@ -3,7 +3,7 @@
 namespace App\Controllers;
 use App\UseCases\SignInUseCase;
 
-class UserController {
+class SignInController {
     private SignInUseCase $signInUseCase;
 
     public function __construct() {
@@ -20,8 +20,7 @@ class UserController {
                 throw new Exception("no access token."); 
             }
 
-
-            return $accessToken;
+            echo json_encode($accessToken);
         } catch (\Throwable $th) {
             throw $th;
         }
