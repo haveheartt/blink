@@ -14,13 +14,19 @@
       {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
+            # php dependencies
             php
             phpPackages.composer
-            # terraform
+
+            insomnia
+
+            # infra dependencies
             google-cloud-sdk
 
+            # frontend dependencies
             pnpm
             nodejs
+
           ];
 
           shellHook = ''
